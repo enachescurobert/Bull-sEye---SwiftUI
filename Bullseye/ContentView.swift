@@ -16,11 +16,11 @@ struct ContentView: View {
     
     @State var sliderValue: Double = 50
     
-    @State var score: Int = 1
+    @State var score: Int = 0
     
     @State var round: Int = 1
     
-    @State var amountToGuess : Int = 50
+    @State var amountToGuess : Int = Int.random(in: 0 ... 100)
 
     
     var body: some View {
@@ -55,16 +55,25 @@ struct ContentView: View {
                 self.alertIsVisible = true
                 let ourValue: Int = abs(self.amountToGuess - Int(self.sliderValue))
 
-                if ourValue == 0 {
+                switch ourValue {
+                case 0:
                     self.score += 100
-                } else if ourValue <= 1 {
+                    print("You gain 100 points")
+                case 1:
                     self.score += 50
-                } else if ourValue <= 10 {
+                    print("You gain 50 points")
+                case 2...10:
                     self.score += ourValue
+                    print("You gain \(ourValue) points for having the difference as \(ourValue)")
+                default:
+                    print("You gain 0 points for having the difference as \(ourValue)")
+
                 }
+                
                 print(self.amountToGuess)
                 print(Int(self.sliderValue))
                 self.round+=1
+                self.amountToGuess = Int.random(in: 0 ... 100)
             }) {
                 Text("Check result!")
             }
@@ -75,7 +84,11 @@ struct ContentView: View {
             Spacer()
             
             HStack{
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                Button(action: {
+                    self.amountToGuess = Int.random(in: 0 ... 100)
+                    self.round = 0
+                    self.score = 0
+                }) {
                     Text("Start over")
                 }
                 Spacer()
