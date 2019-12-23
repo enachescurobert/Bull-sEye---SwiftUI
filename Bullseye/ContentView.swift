@@ -53,32 +53,39 @@ struct ContentView: View {
             Button(action: {
                 print("button pressed!")
                 self.alertIsVisible = true
-                let ourValue: Int = abs(self.amountToGuess - Int(self.sliderValue))
 
-                switch ourValue {
-                case 0:
-                    self.score += 100
-                    print("You gain 100 points")
-                case 1:
-                    self.score += 50
-                    print("You gain 50 points")
-                case 2...10:
-                    self.score += ourValue
-                    print("You gain \(ourValue) points for having the difference as \(ourValue)")
-                default:
-                    print("You gain 0 points for having the difference as \(ourValue)")
-
-                }
-                
-                print(self.amountToGuess)
-                print(Int(self.sliderValue))
-                self.round+=1
-                self.amountToGuess = Int.random(in: 0 ... 100)
             }) {
                 Text("Check result!")
             }
             .alert(isPresented: $alertIsVisible) { () -> Alert in
-                return Alert(title: Text("You scored: "), message: Text("\(Int(sliderValue))"), dismissButton: .cancel())
+                
+                let ourValue: Int = abs(self.amountToGuess - Int(self.sliderValue))
+                var pointsToGet: Int = 0
+                
+                print(self.amountToGuess)
+                print(Int(self.sliderValue))
+
+                switch ourValue {
+                case 0:
+                    pointsToGet = 100
+                    print("You gain \(pointsToGet) points")
+                case 1:
+                    pointsToGet = 50
+                    print("You gain \(pointsToGet) points")
+                case 2...10:
+                    pointsToGet = 20 - ourValue
+                    print("You gain \(pointsToGet) points")
+                default:
+                    print("You gain 0 points for having the difference as \(ourValue)")
+                }
+                
+                return Alert(title: Text("Your result: \(Int(sliderValue))"), message: Text("You get : \(pointsToGet) points"), dismissButton: .cancel({
+            
+                    self.score += pointsToGet
+                    self.round+=1
+                    self.amountToGuess = Int.random(in: 0 ... 100)
+                    
+                }))
             }
             
             Spacer()
