@@ -42,7 +42,7 @@ struct ContentView: View {
                 
                 Text("1")
                 
-                Slider(value: self.$sliderValue, in: 1...100, step: 1)
+                Slider(value: $sliderValue, in: 1...100, step: 1)
 
                 Text("100")
 
@@ -59,11 +59,11 @@ struct ContentView: View {
             }
             .alert(isPresented: $alertIsVisible) { () -> Alert in
                 
-                let ourValue: Int = abs(self.amountToGuess - Int(self.sliderValue))
+                let ourValue: Int = abs(amountToGuess - Int(sliderValue))
                 var pointsToGet: Int = 0
                 
-                print(self.amountToGuess)
-                print(Int(self.sliderValue))
+                print(amountToGuess)
+                print(Int(sliderValue))
 
                 switch ourValue {
                 case 0:
