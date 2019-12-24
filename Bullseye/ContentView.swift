@@ -160,17 +160,20 @@ struct ContentView: View {
                         .modifier(ValueStyle())
                 }
                 Spacer()
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+//                NavigationLink(destination: AboutView, label: "PLM") {
+//                Button(action:{}){
+                NavigationLink(destination: AboutView()){
                     HStack{
                         Image("InfoIcon")
                         Text("Info").modifier(ButtonSmallTextStyle())
                     }
                 }.background(Image("Button")).modifier(Shadow())
-            }.padding(.horizontal, 58.0)
+            }.padding(.horizontal, CGFloat(58.0))
                Spacer()
             }.accentColor(midnightBlue)
-        .background(Color(red: 0.20, green: 0.12, blue: 0.0, opacity: 1.0))
-//        .background(Image("Background"), alignment: .center)
+//        .background(Color(red: 0.20, green: 0.12, blue: 0.0, opacity: 1.0))
+        .navigationBarTitle("Bullseye")
+        .background(Image("Background"), alignment: .center)
     }
 
 
