@@ -20,8 +20,32 @@ struct ContentView: View {
     
     @State var round: Int = 1
     
-    @State var amountToGuess : Int = Int.random(in: 0 ... 100)
+    @State var amountToGuess : Int = Int.random(in: 1 ... 100)
 
+    struct LabelStyle: ViewModifier {
+       func body(content: Content) -> some View {
+         return content
+           .foregroundColor(Color.white)
+           .modifier(Shadow())
+           .font(Font.custom("Arial Rounded MT Bold", size: 18))
+       }
+     }
+    
+     struct ValueStyle: ViewModifier {
+       func body(content: Content) -> some View {
+         return content
+           .foregroundColor(Color.yellow)
+           .modifier(Shadow())
+           .font(Font.custom("Arial Rounded MT Bold", size: 24))
+       }
+     }
+     
+     struct Shadow: ViewModifier {
+       func body(content: Content) -> some View {
+         return content
+           .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+       }
+     }
     
     var body: some View {
         VStack {
@@ -30,32 +54,30 @@ struct ContentView: View {
             
             HStack {
                 Text("Put the bullseye as close as you can to:")
-                
+                    .modifier(LabelStyle())
+
                 Text("\(amountToGuess)")
+                    .modifier(ValueStyle())
             }
             
             Spacer()
-
-            
-            
             HStack {
-                
+                Spacer()
                 Text("1")
-                
+                    .modifier(ValueStyle())
                 Slider(value: $sliderValue, in: 1...100, step: 1)
-
                 Text("100")
-
+                    .modifier(ValueStyle())
+                Spacer()
             }
             
             Spacer()
-        
             Button(action: {
                 print("button pressed!")
                 self.alertIsVisible = true
-
             }) {
                 Text("Check result!")
+                    .padding(.trailing, 28.0)
             }
             .alert(isPresented: $alertIsVisible) { () -> Alert in
                 
@@ -99,18 +121,28 @@ struct ContentView: View {
                     Text("Start over")
                 }
                 Spacer()
-                Text("Score:")
-                Text("\(score)")
+                HStack{
+                    Text("Score:")
+                        .modifier(LabelStyle())
+                    Text("\(score)")
+                        .modifier(ValueStyle())
+                }
                 Spacer()
-                Text("Round")
-                Text("\(round)")
+                HStack{
+                    Text("Round:")
+                        .modifier(LabelStyle())
+                    Text("\(round)")
+                        .modifier(ValueStyle())
+                }
                 Spacer()
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
                     Text("Info")
                 }
-            }.padding(.bottom, 20)
-        
+            }.padding(.all, 20)
+                    
         }
+        .background(Color(red: 0.29, green: 0.15, blue: 0.0, opacity: 1.0))
+//        .background(Image("Background"), alignment: .center)
     }
 
 
