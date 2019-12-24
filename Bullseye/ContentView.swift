@@ -125,7 +125,7 @@ struct ContentView: View {
             
                     self.score += pointsToGet
                     self.round+=1
-                    self.amountToGuess = Int.random(in: 0 ... 100)
+                    self.amountToGuess = Int.random(in: 1 ... 100)
                     
                 }))
             }.background(Image("Button")
