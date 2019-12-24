@@ -21,6 +21,8 @@ struct ContentView: View {
     @State var round: Int = 1
     
     @State var amountToGuess : Int = Int.random(in: 1 ... 100)
+    
+    let midnightBlue = Color(red: 0.0 / 255.0, green: 51.0 / 255.0, blue: 102.0 / 255.0)
 
     struct LabelStyle: ViewModifier {
        func body(content: Content) -> some View {
@@ -31,13 +33,31 @@ struct ContentView: View {
        }
      }
     
+    struct ButtonLargeTextStyle: ViewModifier {
+       func body(content: Content) -> some View {
+         return content
+           .foregroundColor(Color.black)
+            .font(Font.custom("Arial Rounded MT Bold", size: 18))
+            .padding(/*@START_MENU_TOKEN@*/.trailing, 34.0/*@END_MENU_TOKEN@*/)
+       }
+     }
+    
+    struct ButtonSmallTextStyle: ViewModifier {
+       func body(content: Content) -> some View {
+         return content
+           .foregroundColor(Color.black)
+           .font(Font.custom("Arial Rounded MT Bold", size: 12))
+       }
+     }
+
+    
      struct ValueStyle: ViewModifier {
        func body(content: Content) -> some View {
          return content
            .foregroundColor(Color.yellow)
            .modifier(Shadow())
            .font(Font.custom("Arial Rounded MT Bold", size: 24))
-       }
+        }
      }
      
      struct Shadow: ViewModifier {
@@ -66,6 +86,7 @@ struct ContentView: View {
                 Text("1")
                     .modifier(ValueStyle())
                 Slider(value: $sliderValue, in: 1...100, step: 1)
+                    .accentColor(Color.green)
                 Text("100")
                     .modifier(ValueStyle())
                 Spacer()
@@ -76,8 +97,7 @@ struct ContentView: View {
                 print("button pressed!")
                 self.alertIsVisible = true
             }) {
-                Text("Check result!")
-                    .padding(.trailing, 28.0)
+                Text("Hit me!").modifier(ButtonLargeTextStyle())
             }
             .alert(isPresented: $alertIsVisible) { () -> Alert in
                 
@@ -108,7 +128,9 @@ struct ContentView: View {
                     self.amountToGuess = Int.random(in: 0 ... 100)
                     
                 }))
-            }
+            }.background(Image("Button")
+                .padding(.trailing, 34.0)).modifier(Shadow())
+
             
             Spacer()
             
@@ -118,8 +140,11 @@ struct ContentView: View {
                     self.round = 0
                     self.score = 0
                 }) {
-                    Text("Start over")
-                }
+                    HStack{
+                        Image("StartOverIcon")
+                        Text("Start over").modifier(ButtonSmallTextStyle())
+                    }
+                }.background(Image("Button")).modifier(Shadow())
                 Spacer()
                 HStack{
                     Text("Score:")
@@ -136,12 +161,15 @@ struct ContentView: View {
                 }
                 Spacer()
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                    Text("Info")
-                }
-            }.padding(.all, 20)
-                    
-        }
-        .background(Color(red: 0.29, green: 0.15, blue: 0.0, opacity: 1.0))
+                    HStack{
+                        Image("InfoIcon")
+                        Text("Info").modifier(ButtonSmallTextStyle())
+                    }
+                }.background(Image("Button")).modifier(Shadow())
+            }.padding(.horizontal, 58.0)
+               Spacer()
+            }.accentColor(midnightBlue)
+        .background(Color(red: 0.20, green: 0.12, blue: 0.0, opacity: 1.0))
 //        .background(Image("Background"), alignment: .center)
     }
 
